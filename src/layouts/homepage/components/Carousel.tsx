@@ -1,5 +1,4 @@
 import React from "react";
-
 function Carousel() {
   return (
     <div>
@@ -9,7 +8,7 @@ function Carousel() {
             <div className="row align-items-center">
               <div className="col-5 text-center">
                 <img
-                  src={"./../../images/books/1.png"}
+                  src={require("../../../images/books/1.png")}
                   className="float-end"
                   style={{ width: "150px" }}
                 />
@@ -26,13 +25,13 @@ function Carousel() {
             <div className="row align-items-center">
               <div className="col-5 text-center">
                 <img
-                  src={"./../../../images/books/2.png"}
+                  src={require("../../../images/books/2.png")}
                   className="float-end"
                   style={{ width: "150px" }}
                 />
               </div>
               <div className="col-7">
-                <h5>First slide label</h5>
+                <h5>Second slide label</h5>
                 <p>
                   Some representative placeholder content for the first slide.
                 </p>
@@ -43,13 +42,13 @@ function Carousel() {
             <div className="row align-items-center">
               <div className="col-5 text-center">
                 <img
-                  src={"./../../../images/books/3.png"}
+                  src={require("../../../images/books/3.png")}
                   className="float-end"
                   style={{ width: "150px" }}
                 />
               </div>
               <div className="col-7">
-                <h5>First slide label</h5>
+                <h5>Third slide label</h5>
                 <p>
                   Some representative placeholder content for the first slide.
                 </p>

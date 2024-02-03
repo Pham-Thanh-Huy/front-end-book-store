@@ -1,5 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import BookModel from "../../../models/BookModel";
+import ImageModel from "../../../models/ImageModel";
+import { getThreeNewBook } from "../../../api/BookApi";
+import CarouselItem from "./CarouselItem";
 function Carousel() {
+  const [listBookCarousel, setListBookCarousel] = useState<BookModel[]>([]);
+  const [listImageCarousel, setListImageCarousel] = useState<ImageModel[]>([]);
+  useEffect(() => {
+    getThreeNewBook()
+      .then((bookdata) => {
+        setListBookCarousel(bookdata.result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <div>
       <div id="carouselExampleDark" className="carousel carousel-dark slide">
@@ -8,7 +24,7 @@ function Carousel() {
             <div className="row align-items-center">
               <div className="col-5 text-center">
                 <img
-                  src={require("../../../images/books/1.png")}
+                  src={"./../../../images/books/2.png"}
                   className="float-end"
                   style={{ width: "150px" }}
                 />
@@ -21,40 +37,9 @@ function Carousel() {
               </div>
             </div>
           </div>
-          <div className="carousel-item " data-bs-interval="10000">
-            <div className="row align-items-center">
-              <div className="col-5 text-center">
-                <img
-                  src={require("../../../images/books/2.png")}
-                  className="float-end"
-                  style={{ width: "150px" }}
-                />
-              </div>
-              <div className="col-7">
-                <h5>Second slide label</h5>
-                <p>
-                  Some representative placeholder content for the first slide.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="carousel-item " data-bs-interval="10000">
-            <div className="row align-items-center">
-              <div className="col-5 text-center">
-                <img
-                  src={require("../../../images/books/3.png")}
-                  className="float-end"
-                  style={{ width: "150px" }}
-                />
-              </div>
-              <div className="col-7">
-                <h5>Third slide label</h5>
-                <p>
-                  Some representative placeholder content for the first slide.
-                </p>
-              </div>
-            </div>
-          </div>
+          {listBookCarousel.map((book) => (
+            <CarouselItem key={book.bookId} book={book} />
+          ))}
         </div>
         <button
           className="carousel-control-prev"

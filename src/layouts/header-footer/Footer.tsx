@@ -23,7 +23,7 @@ function Footer() {
                   Pricing
                 </a>
               </li>
-              <li className="nav-item mb-2">
+              <li className="nav-item mb-2">    
                 <a href="#" className="nav-link p-0 text-body-secondary">
                   FAQs
                 </a>

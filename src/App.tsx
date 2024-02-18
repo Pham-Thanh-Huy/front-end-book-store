@@ -9,6 +9,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import About from "./layouts/about/About";
 import ProductDetail from "./layouts/product/ProductDetail";
 import { Register } from "./layouts/user/Register";
+import ActiveAccount from "./layouts/user/ActiveAccount";
+import { Login } from "./layouts/user/Login";
+import { Test } from "./layouts/user/Test";
+import BookForm_Admin from "./layouts/admin/BookForm";
 
 function App() {
   const [searchInput, setSearchInput] = useState("");
@@ -23,9 +27,17 @@ function App() {
             element={<HomePage searchInput={searchInput} />}
           />
           <Route path="/book/:bookId" element={<ProductDetail />} />
-          <Route path="/about" element={<About />}></Route>
-          <Route path="/register" element={<Register />}></Route>
+          <Route path="/about" element={<About />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/active/:email/:codeActive"
+            element={<ActiveAccount />}
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/admin/product/form" element={<BookForm_Admin />} />
         </Routes>
+
         <Footer />
       </BrowserRouter>
     </div>

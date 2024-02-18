@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { error } from "console";
 
 export const Register: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -19,6 +18,24 @@ export const Register: React.FC = () => {
   const [errorSex, setErrorSex] = useState("");
   const [errorAge, setErrorAge] = useState("");
   const [message, setMessage] = useState("");
+  const [avatar, setAvatar] = useState<File | null>(null);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      setAvatar(files[0]);
+    }
+  };
+
+  //convert anh base 64
+  const getBase64 = (file: File) => {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,9 +86,26 @@ export const Register: React.FC = () => {
       setErrorAge("Tuổi không được để trống");
       error = true;
     }
+    try {
+      const isUsernameExist = await checkUsernameExist(username);
+      if (isUsernameExist) {
+        setErrorUsername("Tên đăng nhập đã tồn tại");
+        error = true;
+      }
+      const isEmailExist = await checkEmailExist(email);
+      if (isEmailExist) {
+        setErrorEmail("Email đã tồn tại");
+        error = true;
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     if (!error) {
       try {
+        // Kiểm tra sự tồn tại của username và email
+
+        // Nếu không có lỗi, gửi yêu cầu đăng ký
         const url = `http://localhost:8888/api/account/register`;
         const response = await fetch(url, {
           method: "POST",
@@ -83,7 +117,7 @@ export const Register: React.FC = () => {
             firstName: firstname,
             username: username,
             password: password,
-            sex: sex === "Nam" ? "M" : "F", // Chuyển đổi từ "Nam" thành "M" và "Nữ" thành "F"
+            sex: sex === "Nam" ? "M" : "F",
             email: email,
             phoneNumber: "0838129818",
             address: "p25k5",
@@ -240,6 +274,19 @@ export const Register: React.FC = () => {
               className="form-control"
               value={age}
               onChange={(e) => setAge(e.target.value)}
+            />
+            <div style={{ color: "red" }}>{errorAge}</div>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="avatar" className="form-label">
+              avatar
+            </label>
+            <input
+              type="file"
+              id="avatar"
+              className="form-control"
+              accept="image/*"
+              onChange={handleAvatarChange}
             />
             <div style={{ color: "red" }}>{errorAge}</div>
           </div>
